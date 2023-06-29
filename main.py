@@ -3,9 +3,11 @@ import csv
 import requests
 from bs4 import BeautifulSoup
 
-from download_page import headers
+from download_page import parse
 
 ENCODING = "utf-8"
+
+parse()
 
 with open("pages/index.html") as file:
     src = file.read()
@@ -38,7 +40,7 @@ for item in all_data:
     except Exception:
         prod_price_full = item.find(class_="product-price__sum-rubles").text
 
-    req = requests.get(url=prod_href, headers=headers)
+    req = requests.get(url=prod_href)
     src = req.text
     soup_detail = BeautifulSoup(src, "lxml")
     prod_brand = soup_detail.find(
